@@ -330,7 +330,7 @@ int computeImage(const string inFile, const char *outF, const int singleHdu, con
 	}
     }
     
-    maskSummary << setw (3) << n << " " << fixed << setprecision(2) << setw (8) << sMedian << " " << setw (6) << sMad << " " << setw (8) << nMaskedPix << " " << setw (8) << nMaskedPix*1.0/npix << endl;
+    maskSummary << setw (3) << n << " " << fixed << setprecision(2) << setw (8) << sMedian << " " << setw (6) << sMad << " " << setw (8) << nMaskedPix << " " << setw (8) << nMaskedPix*100.0/npix << endl;
     
     delete[] sArray;
     
