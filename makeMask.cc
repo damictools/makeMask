@@ -324,7 +324,7 @@ int computeImage(const string inFile, const char *outF, const int singleHdu, con
    
     long nMaskedPix=0;
     for(int p=0;p<npix;++p){
-      if( (sArray[p]-sMedian) > madCut*sMad ){ //Mask pixel
+      if( fabs(sArray[p]-sMedian) > madCut*sMad ){ //Mask pixel
           outArray[p] =  128;
 	  ++nMaskedPix;
 	}
@@ -351,8 +351,6 @@ int computeImage(const string inFile, const char *outF, const int singleHdu, con
       if(single) showProgress(3,3*nHDUsToProcess);
       else showProgress((n-1)*3+3,3*nHDUsToProcess);
     }
-    
-    
     
     
     /* quit if only copying a single HDU */
