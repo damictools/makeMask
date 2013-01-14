@@ -86,7 +86,7 @@ void printCopyHelp(const char *exeName, bool printFullHelp=false){
   cout << "\nUsage:\n";
   cout << "  "   << exeName << " <input file> -o <output filename> -c <madCut>\n";
   cout << "\nOptions:\n";
-  cout << "  -v for verbosity\n";
+  cout << "  -q for quiet (no screen output)\n";
   cout << "  -s <HDU number> for processing a single HDU\n\n";
   cout << blue;
   cout << "For any problems or bugs contact Javier Tiffenberg <javiert@fnal.gov>\n\n";
@@ -390,7 +390,7 @@ int processCommandLineArgs(const int argc, char *argv[], int &singleHdu, float &
   bool outFileFlag = false;
   string inListFile = "";
   int opt=0;
-  while ( (opt = getopt(argc, argv, "c:o:s:vVhH?")) != -1) {
+  while ( (opt = getopt(argc, argv, "c:o:s:qQhH?")) != -1) {
     switch (opt) {
     case 'o':
       if(!outFileFlag){
@@ -420,9 +420,9 @@ int processCommandLineArgs(const int argc, char *argv[], int &singleHdu, float &
         return 2;
       }
       break;
-    case 'V':
-    case 'v':
-      gVerbosity = 1;
+    case 'Q':
+    case 'q':
+      gVerbosity = 0;
       break;
     case 'h':
     case 'H':
