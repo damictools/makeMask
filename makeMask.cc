@@ -324,7 +324,7 @@ int computeImage(const string inFile, const char *outF, const int singleHdu, con
    
     long nMaskedPix=0;
     for(int p=0;p<npix;++p){
-      if( fabs(sArray[p]-sMedian) > madCut*sMad ){ //Mask pixel
+      if( fabs(sArray[p]-sMedian) > madCut*sMad || sArray[p]==0){ //Mask pixel
           outArray[p] =  128;
 	  ++nMaskedPix;
 	}
