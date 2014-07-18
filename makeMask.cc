@@ -78,7 +78,9 @@ void printCopyHelp(const char *exeName, bool printFullHelp=false){
     cout << "This program computes the mask image from a MAD input fits file.\n";
     cout << "It handles all the available HDUs. The HDUs in the output fit file\n";
     cout << "will be 8bits and the pixels will be 0 for good ones and 8 for bad ones.\n";
-    cout << "Good pixel deffinition: |pix-MEDIAN| < madCut*MAD.\n";
+    cout << "Good pixel deffinition: |pix-MEDIAN| < madCut*consistencyConst*MAD.\n";
+    cout << "With consistencyConst = " << kConsistencyConstant << " so the madCut is in SD units.\n";
+    cout << "\n";
     cout << normal;
   }
   cout << "==========================================================================\n";
@@ -219,6 +221,10 @@ int copyStructure(const string &inFile, const char *outF, const int singleHdu){
 /* Compute the median image and write it to an existing output file 
  * that has the right structure (created by copyStructure function */
 int computeImage(const string inFile, const char *outF, const int singleHdu, const float madCut){
+  
+  
+  const float sigmaEq = kConsistencyConstant*madCut;
+  
   int status = 0;
   double nulval = 0.;
   int anynul = 0;
@@ -324,7 +330,7 @@ int computeImage(const string inFile, const char *outF, const int singleHdu, con
    
     long nMaskedPix=0;
     for(int p=0;p<npix;++p){
-      if( fabs(sArray[p]-sMedian) > madCut*sMad || sArray[p]==0){ //Mask pixel
+      if( fabs(sArray[p]-sMedian) > sigmaEq*sMad || sArray[p]==0){ //Mask pixel
           outArray[p] =  128;
 	  ++nMaskedPix;
 	}
@@ -486,7 +492,7 @@ int main(int argc, char *argv[])
     cout << bold << "\nWill read the following file:\n" << normal;
     cout << "\t" << inFile << endl;
     cout << bold << "\nThe output will be saved in the file:\n\t" << normal << outFile << endl;
-    cout << bold << "\nWill use: " << cyan << madCut <<"xMAD "<< normal << bold << "as pixel cut value." << endl;
+    cout << bold << "\nWill use: " << cyan << kConsistencyConstant <<"x"<<  madCut <<"xMAD "<< normal << bold << "as pixel cut value." << endl;
   }
   
   /* Overwrite the output file if it already exist */

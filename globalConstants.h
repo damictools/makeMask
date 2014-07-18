@@ -6,6 +6,9 @@
 
 int gVerbosity = true;
 
+//For making the MAD directly comparable to the sigma
+const float kConsistencyConstant = 1.4826;
+
 inline double sq(double x){return x*x;};
 
 const int    kMaxLine = 10000;
